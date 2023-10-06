@@ -1,30 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { MetaMaskProvider } from '@metamask/sdk-react';
+import { StoreProvider } from 'easy-peasy';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <MetaMaskProvider
-      debug={false}
-      sdkOptions={{
-        logging: {
-          developerMode: true,
-        },
-        checkInstallationImmediately: true, // This will automatically connect to MetaMask on page load
-        dappMetadata: {
-          name: 'Demo React App',
-          url: window.location.host,
-        },
-        enableDebug: true,
-        autoConnect: {
-          enable: true,
-        },
-        storage: {
-          enabled: true,
-        },
-      }}>
-      <App />
-    </MetaMaskProvider>
-  </React.StrictMode>,
+import { store } from './store';
+import { App } from './ui/components/App';
+
+const root = createRoot(document.getElementById('dapp'));
+
+root.render(
+  <StrictMode>
+    <StoreProvider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </StoreProvider>
+  </StrictMode>,
 );
